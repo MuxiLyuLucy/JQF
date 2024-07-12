@@ -160,15 +160,9 @@ public class FuzzStatement extends Statement {
                     result = TIMEOUT;
                     error = e;
                 } catch (Throwable e) {
-
-                    // Check if jazzer sanitizer is triggered
-                    if (e instanceof java.lang.AssertionError && e.getMessage().equals("Exception FuzzerSecurityIssueMedium Raise!")) {
-                        result = FAILURE;
-                        error = e;
-                        failures.add(e);
-                    }
+                    
                     // Check if this exception was expected
-                    else if (isExceptionExpected(e.getClass())) {
+                    if (isExceptionExpected(e.getClass())) {
                         result = SUCCESS; // Swallow the error
                     } else {
                         result = FAILURE;
